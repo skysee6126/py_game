@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 screen_width = 640
@@ -30,7 +31,7 @@ enemy = pygame.image.load("enemy.jpg")
 enemy_size = enemy.get_rect().size
 enemy_width = enemy_size[0]
 enemy_height = enemy_size[1]
-enemy_x_pos = 0
+enemy_x_pos = random.randint(0, screen_width - enemy_width)
 enemy_y_pos = 0
 enemy_speed = 10
 
@@ -68,16 +69,20 @@ elif character_x_pos > screen_width - character_width:
 
 #position of enemy
 enemy_y_pos += enemy_speed
+if enemy_y_pos > screen_height:
+  enemy_y_pos = 0
+  enemy_x_pos = random.randint(0, screen_width - enemy_width)
+
 
 
 #collision
 character_rect = character.get_rect()
 character_rect.left = character_x_pos
-character_rect.right = character_y_pos
+character_rect.top = character_y_pos
 
 enemy_rect = enemy.get_rect()
 enemy_rect.left = enemy_x_pos
-enemy_rect.right = enemy_y_pos
+enemy_rect.top = enemy_y_pos
 
 if character_rect.colliderect(enemy_rect):
   print("Bump!")
